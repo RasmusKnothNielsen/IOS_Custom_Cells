@@ -13,7 +13,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
 
     var stories = [Story]()
     
-    var chosenStory = Story(txt: "", img: "")
+    var chosenStory = Story()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -32,19 +32,19 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     // Function that handles when we press the individual row
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailedVC = DetailedViewController()
         // Transfer the text and image to the detailedViewController
         print(stories[indexPath.row].text)
         let text = stories[indexPath.row].text
         print(text)
         chosenStory = stories[indexPath.row]
-        performSegue(withIdentifier: "showDetails", sender: self)
+        performSegue(withIdentifier: "showDetailsTextImage", sender: self)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return stories.count
     }
     
+    // Determine how the cells should be displayed
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         if stories[indexPath.row].hasImage() {
@@ -60,7 +60,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
             // Handle the case where there is no image
             
             // If the following works, we get a cell of the type TableViewCellTextOnly
-            if let cell = tableView.dequeueReusableCell(withIdentifier: "cell1") as? TableViewCellTextOnly {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "cell1") as? TableViewCellTextOnly
+{
                 // Set the label text to the respective story text
                 cell.myLabel.text = stories[indexPath.row].text
                 print(stories[indexPath.row].text)
@@ -80,7 +81,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        var vc = segue.destination as! DetailedViewController
+        let vc = segue.destination as! DetailedViewController
         vc.text = chosenStory.text
         if chosenStory.hasImage() {
             vc.image = chosenStory.image

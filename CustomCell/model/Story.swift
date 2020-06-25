@@ -11,9 +11,15 @@ import Foundation
 class Story {
     
     // Fields
-    var text:String = ""
+    var text:String
     
-    var image:String = ""
+    var image:String
+    
+    // Empty constructor
+    init() {
+        text = ""
+        image = ""
+    }
     
     // Constructor
     init(txt:String, img:String) {
